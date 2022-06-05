@@ -7,11 +7,8 @@ const io = require("socket.io")(3002, {
 const {addUser, getUser, removeUser} = require('./actions')
 let users = [];
 
-
-
 io.on("connection", (socket) => {
-  console.log("a user connected.");
-    console.log(socket.id)
+
   socket.on("addUser", (userId) => {
     console.log(userId)
     addUser(userId, socket.id);
@@ -20,7 +17,6 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", ({ senderId, receiverId, text, senderName }) => {
     const user = getUser(receiverId);
-    console.log(senderId, receiverId, text)
     if(user){
         io.to(user.socketId).emit("getMessage", {
           senderId,
